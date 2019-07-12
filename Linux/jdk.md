@@ -9,7 +9,7 @@ sudo tar -zxvf jdk-8u181-linux-x64.tar.gz -C /usr/lib/java
 vim /etc/profile
 source /etc/profile
 # set orable jdk
-export JAVA_HOME=/user/lib/java/jdk1.8.0_181
+export JAVA_HOME=/usr/lib/java/jdk1.8.0_181
 export JRE_HOME=$JAVA_HOME/jre
 export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib
 export PATH=$PATH:$JAVA_HOME/bin
