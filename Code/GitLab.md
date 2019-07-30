@@ -119,4 +119,37 @@ gitlab_rails['backup_keep_time'] = 7776000              //备份保留天数为3
 * sudo gitlab-rake gitlab:backup:restore BACKUP=
 
 #### 再次启动
+* sudo gitlab-ctl start unicorn
+* sudo gitlab-ctl start sidekiq
 * sudo gitlab-ctl start
+
+
+### 7. 汉化
+#### 汉化包
+* https://gitlab.com/xhang/gitlab
+* https://gitlab.com/xhang/gitlab/-/archive/11-11-stable-zh/gitlab-11-11-stable-zh.tar.gz
+* sudo gitlab-ctl stop
+
+#### 备份
+* sudo cp -rp /opt/gitlab/embedded/service/gitlab-rails{,.bak_$(date +%F)}
+
+#### 覆盖
+* sudo cp -rf gitlab-11-11-stable-zh/* /opt/gitlab/embedded/service/gitlab-rails/
+
+#### 重启
+* sudo gitlab-ctl reconfigure
+* sudo gitlab-ctl restart
+
+#### 或者
+```
+git clone https://gitlab.com/xhang/gitlab.git
+cd gitlab
+git fetch
+git diff origin/11-11-stable-stable origin/11-11-stable-stable-zh > /tmp/11-11.diff
+sudo gitlab-ctl stop
+cd /opt/gitlab/embedded/service/gitlab-rails
+git apply /tmp/11-11.diff
+or
+cd /tmp
+patch -d /opt/gitlab/embedded/service/gitlab-rails -p1 < 11-11.diff
+```
