@@ -20,6 +20,7 @@
 #### dpkg安装
 * sudo dpkg -i gitlab-ce_11.9.9-ce.0_amd64.deb
 
+
 ### 2. 启动
 #### 启动sshd和postfix服务
 * service sshd start
@@ -97,8 +98,7 @@ gitlab_rails['backup_archive_permissions'] = 0644        //生成的备份文件
 gitlab_rails['backup_keep_time'] = 7776000              //备份保留天数为3个月（即90天，这里是7776000秒）
 ```
 
-#### 
-默认 /var/opt/gitlab/backups
+* 默认 /var/opt/gitlab/backups
 * sudo mkdir -p /data/gitlab-backups
 * sudo chown -R git.git /data/gitlab-backups
 * sudo chmod -R 777 /data/gitlab-backups
@@ -107,6 +107,18 @@ gitlab_rails['backup_keep_time'] = 7776000              //备份保留天数为3
 #### 备份
 * sudo gitlab-rake gitlab:backup:create
 
+#### 自动
+* 编写备份脚本，结合crontab实施自动定时备份，比如每天0点、6点、12点、18点各备份一次
+* 注意：环境变量CRON=1的作用是如果没有任何错误发生时， 抑制备份脚本的所有进度输出
+* vi /data/gitlab/backups/gitlab_backup.sh
+```
+#!/bin/bash
+/usr/bin/gitlab-rake gitlab:backup:create CRON=1
+```
+* crontab -l
+```
+0 0,6,12,18 * * * /bin/bash -x /data/gitlab/backups/gitlab_backup.sh > /dev/null 2>&1
+```
 
 ### 7. 恢复
 #### 停止相关数据连接服务
