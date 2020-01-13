@@ -3,6 +3,16 @@
 ### 资源
 #### Linux
 * sudo apt-get install mysql-server-5.7
+
+```
+sudo cat /etc/mysql/debian.cnf
+use mysql;
+update mysql.user set authentication_string=password('12345678') where user='root' and host ='localhost';
+update user set plugin="mysql_native_password";
+flush privileges;
+quit;
+```
+
 ## Windows
 * https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.26-winx64.zip
 

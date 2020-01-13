@@ -29,3 +29,16 @@ Settings | Build, Execution, Deployment | Compiler | Build project automatically
 
 
 ### 3.CLion
+
+
+### External Tools
+$FileDir$
+$FilePath$
+$FileName$
+$FileNameWithoutExtension$
+$FileExt$
+```
+java
+-jar "C:\Program Files\JetBrains\Tools\yuicompressor-2.4.8.jar" --charset utf-8 --type $FileExt$ $FileName$ -o $FileNameWithoutExtension$.min.$FileExt$
+$FileDir$
+```
